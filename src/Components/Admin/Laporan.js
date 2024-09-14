@@ -47,8 +47,11 @@ function ActivityReport() {
     }, []);
     
     const handleDownload = async (type, month) => {
+        // Ensure we are only dealing with valid dates
+        const validMonth = dayjs(month, 'YYYY-MM', true).isValid() ? month : dayjs().format('YYYY-MM');
+        
         try {
-            const response = await fetch(`http://localhost:5000/api/laporan/download/${type}?month=${month}`);
+            const response = await fetch(`http://localhost:5000/api/laporan/download/${type}?month=${validMonth}`);
             if (!response.ok) {
                 throw new Error(`Network response was not ok: ${response.statusText}`);
             }

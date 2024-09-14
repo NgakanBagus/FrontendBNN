@@ -5,8 +5,9 @@ import AddBoxIcon from '@mui/icons-material/AddBox';
 import EditIcon from '@mui/icons-material/Edit';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import DeleteIcon from '@mui/icons-material/Delete';
-import logo from '../Images/logo_url.png';
 import LogoutIcon from '@mui/icons-material/Logout';
+import Swal from 'sweetalert2';
+import logo from '../Images/logo_url.png';
 
 function ReviseSchedule() {
     const [schedules, setSchedules] = useState([]);
@@ -28,19 +29,42 @@ function ReviseSchedule() {
     }, []);
 
     const handleDelete = (id_jadwal) => {
-        fetch(`http://localhost:5000/api/jadwal/${id_jadwal}`, {
-            method: 'DELETE',
-        })
-        .then(response => {
-            if (response.ok) {
-                setSchedules(schedules.filter(schedule => schedule.id_jadwal !== id_jadwal));
-            } else {
-                throw new Error('Failed to delete schedule');
+        Swal.fire({
+            title: 'Apakah Anda yakin?',
+            text: "Anda tidak dapat mengembalikan jadwal ini setelah dihapus!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, hapus!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch(`http://localhost:5000/api/jadwal/${id_jadwal}`, {
+                    method: 'DELETE',
+                })
+                .then(response => {
+                    if (response.ok) {
+                        setSchedules(schedules.filter(schedule => schedule.id_jadwal !== id_jadwal));
+                        Swal.fire(
+                            'Dihapus!',
+                            'Jadwal telah dihapus.',
+                            'success'
+                        );
+                    } else {
+                        throw new Error('Failed to delete schedule');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error deleting schedule:', error);
+                    setError('Terjadi kesalahan saat menghapus jadwal.');
+                    Swal.fire(
+                        'Error!',
+                        'Jadwal tidak dapat dihapus.',
+                        'error'
+                    );
+                });
             }
-        })
-        .catch(error => {
-            console.error('Error deleting schedule:', error);
-            setError('Terjadi kesalahan saat menghapus jadwal.');
         });
     };
 
