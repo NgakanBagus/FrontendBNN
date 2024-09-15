@@ -9,17 +9,15 @@ import dayjs from 'dayjs';
 function LaporanKegiatan() {
     const [reports, setReports] = useState([]);
     const [error, setError] = useState('');
-    const [loggedInUser, setLoggedInUser] = useState(''); // Menambah state untuk logged-in user
+    const [loggedInUser, setLoggedInUser] = useState(''); 
 
     useEffect(() => {
-        // Fetch jadwal
-        fetch('http://localhost:5000/api/jadwal')
+        fetch(`${process.env.REACT_APP_API_URL}/api/jadwal`)
             .then(response => response.json())
             .then(data => {
                 if (Array.isArray(data.data) && data.data.length > 0) {
                     const lastWeek = dayjs().subtract(7, 'day').startOf('day');
                     
-                    // Filter jadwal untuk satu minggu terakhir
                     const filteredReports = data.data.filter(report => {
                         return dayjs(report.tanggal_mulai).isAfter(lastWeek);
                     });
@@ -38,15 +36,13 @@ function LaporanKegiatan() {
                 setError('Terjadi kesalahan saat mengambil laporan.');
             });
 
-        // Get logged-in user from localStorage
         const username = localStorage.getItem('username');
         setLoggedInUser(username || 'User');
     }, []);
 
-    // Fungsi untuk handle download laporan
     const handleDownload = async (type, month) => {
         try {
-            const response = await fetch(`http://localhost:5000/api/laporan/download/${type}?month=${month}`);
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/laporan/download/${type}?month=${month}`);
             if (!response.ok) {
                 throw new Error(`Network response was not ok: ${response.statusText}`);
             }
@@ -66,7 +62,6 @@ function LaporanKegiatan() {
 
     return (
         <div className="flex">
-            {/* Sidebar */}
             <div className="w-1/5 bg-gray-100 p-4 h-screen flex flex-col justify-between">
                 <div>
                     <div className="flex items-center justify-center mb-6">
@@ -96,7 +91,6 @@ function LaporanKegiatan() {
                 </div>
             </div>
 
-            {/* Main Content */}
             <div className="w-4/5 container mx-auto p-8">
                 <h1 className="text-3xl font-bold mb-6">Laporan Kegiatan</h1>
                 <div className="bg-white p-6 rounded-lg shadow-md">

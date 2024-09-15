@@ -14,8 +14,7 @@ function UserMenu() {
     const colors = ['#FF5733', '#33FF57', '#3357FF', '#FF33A6', '#FFC133', '#33FFF1'];
 
     useEffect(() => {
-        // Fetch schedules
-        fetch('http://localhost:5000/api/jadwal')
+        fetch(`${process.env.REACT_APP_API_URL}/api/jadwal`)
             .then(response => response.json())
             .then(data => {
                 if (data && data.data) {
@@ -26,20 +25,17 @@ function UserMenu() {
             })
             .catch(error => console.error('Error fetching schedules:', error));
 
-        // Fetch announcements
-        fetch('http://localhost:5000/api/pengumuman')
+        fetch(`${process.env.REACT_APP_API_URL}/api/pengumuman`)
             .then(response => response.json())
             .then(data => setAnnouncements(data))
             .catch(error => console.error('Error fetching announcements:', error));
 
-        // Get logged-in user from localStorage
         const username = localStorage.getItem('username');
         setLoggedInUser(username || 'User');
     }, []);
 
     return (
         <div className="flex">
-            {/* Sidebar */}
             <div className="w-1/5 bg-gray-100 p-4 h-screen flex flex-col justify-between">
                 <div>
                     <div className="flex items-center justify-center mb-6">
@@ -69,11 +65,9 @@ function UserMenu() {
                 </div>
             </div>
 
-            {/* Main Content */}
             <div className="w-4/5 container mx-auto p-4">
                 <h1 className="text-2xl font-bold mb-4">Dashboard User</h1>
 
-                {/* Agenda Kegiatan */}
                 <div className="bg-white p-4 rounded-lg shadow-md mb-4">
                     <h2 className="text-xl font-semibold mb-2">Agenda Kegiatan</h2>
                     <table className="w-full table-auto">
@@ -102,7 +96,6 @@ function UserMenu() {
                     </table>
                 </div>
 
-                {/* Kalender and Pengumuman */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-white p-2 rounded-lg shadow-md">
                         <h2 className="text-lg font-semibold mb-2">Kalender Kegiatan</h2>

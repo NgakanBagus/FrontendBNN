@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import Swal from 'sweetalert2';  // Import SweetAlert2
+import Swal from 'sweetalert2'; 
 import TodayIcon from '@mui/icons-material/Today';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import EditIcon from '@mui/icons-material/Edit';
@@ -44,7 +44,7 @@ function AddSchedule() {
 
         if (result.isConfirmed) {
             try {
-                const response = await fetch('http://localhost:5000/api/jadwal', {
+                const response = await fetch(`${process.env.REACT_APP_API_URL}/api/jadwal`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -58,7 +58,7 @@ function AddSchedule() {
                         'Jadwal baru telah ditambahkan.',
                         'success'
                     );
-                    navigate('/admin'); // Redirect to the dashboard
+                    navigate('/admin'); 
                 } else {
                     Swal.fire(
                         'Gagal!',

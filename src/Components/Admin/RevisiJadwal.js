@@ -16,7 +16,7 @@ function ReviseSchedule() {
     const [loggedInAdmin, setLoggedInAdmin] = useState('');
 
     useEffect(() => {
-        fetch('http://localhost:5000/api/jadwal')
+        fetch(`${process.env.REACT_APP_API_URL}/api/jadwal`)
             .then(response => response.json())
             .then(data => setSchedules(data.data))
             .catch(error => {
@@ -40,7 +40,7 @@ function ReviseSchedule() {
             cancelButtonText: 'Batal'
         }).then((result) => {
             if (result.isConfirmed) {
-                fetch(`http://localhost:5000/api/jadwal/${id_jadwal}`, {
+                fetch(`${process.env.REACT_APP_API_URL}/api/jadwal/${id_jadwal}`, {
                     method: 'DELETE',
                 })
                 .then(response => {
@@ -74,7 +74,6 @@ function ReviseSchedule() {
 
     return (
         <div className="flex">
-            {/* Sidebar */}
             <div className="w-1/5 bg-gray-100 p-4 h-screen flex flex-col justify-between">
                 <div>
                     <div className="flex items-center justify-center mb-6">
@@ -116,7 +115,6 @@ function ReviseSchedule() {
                 </div>
             </div>
 
-            {/* Main Content */}
             <div className="w-4/5 container mx-auto p-4">
                 <h1 className="text-2xl font-bold mb-4">Revisi Jadwal</h1>
                 <div className="bg-white p-4 rounded-lg shadow-md">

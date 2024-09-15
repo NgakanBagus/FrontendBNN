@@ -14,7 +14,7 @@ function LoginForm() {
     
         if (Object.keys(validationErrors).length === 0) {
             try {
-                const response = await fetch('http://localhost:5000/api/auth/login', {
+                const response = await fetch(`${process.env.REACT_APP_API_URL}/api/auth/login`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -24,10 +24,8 @@ function LoginForm() {
                 const data = await response.json();
     
                 if (response.ok) {
-                    // Simpan token ke dalam localStorage
                     localStorage.setItem('token', data.token);
     
-                    // Simpan status login berdasarkan role
                     if (data.role === 'admin') {
                         localStorage.setItem('isAdminLoggedIn', 'true');
                         navigate('/admin');
@@ -44,9 +42,6 @@ function LoginForm() {
         }
     };
     
-    
-    
-
     const validate = () => {
         const error = {};
 

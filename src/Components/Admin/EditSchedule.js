@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import Swal from 'sweetalert2';  // SweetAlert2 for confirmation
+import Swal from 'sweetalert2'; 
 import TodayIcon from '@mui/icons-material/Today';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import EditIcon from '@mui/icons-material/Edit';
@@ -15,7 +15,7 @@ function EditSchedule() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetch(`http://localhost:5000/api/jadwal/${id_jadwal}`)
+        fetch(`${process.env.REACT_APP_API_URL}/api/jadwal/${id_jadwal}`)
             .then(response => response.json())
             .then(data => setSchedule(data))
             .catch(error => {
@@ -34,7 +34,7 @@ function EditSchedule() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        fetch(`http://localhost:5000/api/jadwal/${id_jadwal}`, {
+        fetch(`${process.env.REACT_APP_API_URL}/api/jadwal/${id_jadwal}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -70,7 +70,7 @@ function EditSchedule() {
             cancelButtonText: 'Tidak',
         }).then((result) => {
             if (result.isConfirmed) {
-                navigate('/admin/revise-schedule');  // Redirect to the revise schedule page
+                navigate('/admin/revise-schedule');  
             }
         });
     };

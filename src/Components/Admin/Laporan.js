@@ -14,7 +14,7 @@ function ActivityReport() {
     const [loggedInAdmin, setLoggedInAdmin] = useState('');
 
     useEffect(() => {
-        fetch('http://localhost:5000/api/jadwal')
+        fetch(`${process.env.REACT_APP_API_URL}/api/jadwal`)
             .then(response => response.json())
             .then(data => {
                 console.log('Fetched data:', data);
@@ -47,11 +47,10 @@ function ActivityReport() {
     }, []);
     
     const handleDownload = async (type, month) => {
-        // Ensure we are only dealing with valid dates
         const validMonth = dayjs(month, 'YYYY-MM', true).isValid() ? month : dayjs().format('YYYY-MM');
         
         try {
-            const response = await fetch(`http://localhost:5000/api/laporan/download/${type}?month=${validMonth}`);
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/laporan/download/${type}?month=${validMonth}`);
             if (!response.ok) {
                 throw new Error(`Network response was not ok: ${response.statusText}`);
             }
@@ -71,7 +70,6 @@ function ActivityReport() {
     
     return (
         <div className="flex min-h-screen bg-gray-50">
-            {/* Sidebar */}
             <div className="w-1/5 bg-gray-100 p-4 flex flex-col justify-between">
                 <div>
                     <div className="flex items-center justify-center mb-6">

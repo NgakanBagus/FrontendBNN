@@ -7,7 +7,7 @@ import ReviseSchedule from "./Components/Admin/RevisiJadwal";
 import ActivityReport from "./Components/Admin/Laporan"; 
 import UserMenu from "./Components/User/Home";
 import LaporanKegiatan from './Components/User/Laporan';
-import EditSchedule from './Components/Admin/EditSchedule';  // Corrected path
+import EditSchedule from './Components/Admin/EditSchedule';  
 
 function App() {
   const isAdminAuthenticated = () => {
@@ -23,7 +23,7 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
 
-        {/* Admin Routes */}
+        
         <Route
           path="/admin"
           element={isAdminAuthenticated() ? <AdminDashboard /> : <Navigate to="/login" />}
@@ -45,7 +45,7 @@ function App() {
           element={isAdminAuthenticated() ? <ActivityReport /> : <Navigate to="/login" />}
         />
 
-        {/* User Routes */}
+        
         <Route
           path="/user"
           element={isUserAuthenticated() ? <UserMenu /> : <Navigate to="/login" />}
@@ -55,7 +55,7 @@ function App() {
           element={isUserAuthenticated() ? <LaporanKegiatan /> : <Navigate to="/login" />}
         />
 
-        {/* Redirect unmatched routes to login */}
+
         <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
     </Router>

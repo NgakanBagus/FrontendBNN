@@ -7,7 +7,7 @@ import AddBoxIcon from '@mui/icons-material/AddBox';
 import EditIcon from '@mui/icons-material/Edit';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import LogoutIcon from '@mui/icons-material/Logout';
-import Swal from 'sweetalert2';  // Import SweetAlert2
+import Swal from 'sweetalert2';  
 import logo from '../Images/logo_url.png';
 
 function AdminDashboard() {
@@ -21,7 +21,7 @@ function AdminDashboard() {
     const colors = ['#FF5733', '#33FF57', '#3357FF', '#FF33A6', '#FFC133', '#33FFF1'];
 
     useEffect(() => {
-        fetch('http://localhost:5000/api/jadwal')
+        fetch(`${process.env.REACT_APP_API_URL}/api/jadwal`)
             .then(response => response.json())
             .then(data => {
                 if (data && data.data) {
@@ -32,12 +32,11 @@ function AdminDashboard() {
             })
             .catch(error => console.error('Error fetching schedules:', error));
         
-        fetch('http://localhost:5000/api/pengumuman')
+        fetch(`${process.env.REACT_APP_API_URL}/api/pengumuman`)
             .then(response => response.json())
             .then(data => setAnnouncements(data))
             .catch(error => console.error('Error fetching announcements:', error));
 
-        // Check for admin user
         const admin = localStorage.getItem('admin');
         setLoggedInAdmin(admin || 'Admin');
     }, []);
@@ -45,7 +44,7 @@ function AdminDashboard() {
     const handleAddAnnouncement = async () => {
         if (newAnnouncement.trim() !== '' && announcementDate.trim() !== '') {
             try {
-                const response = await fetch('http://localhost:5000/api/pengumuman', {
+                const response = await fetch(`${process.env.REACT_APP_API_URL}/api/pengumuman`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -78,7 +77,6 @@ function AdminDashboard() {
                     setSuccessMessage('Pengumuman berhasil ditambahkan!');
                     setError('');
 
-                    // SweetAlert Success Notification
                     Swal.fire({
                         title: 'Berhasil!',
                         text: 'Pengumuman berhasil ditambahkan!',
@@ -89,7 +87,7 @@ function AdminDashboard() {
             } catch (error) {
                 setError('Terjadi kesalahan saat menambahkan pengumuman.');
                 
-                // SweetAlert Error Notification
+
                 Swal.fire({
                     title: 'Error!',
                     text: 'Terjadi kesalahan saat menambahkan pengumuman.',
@@ -100,7 +98,7 @@ function AdminDashboard() {
         } else {
             setError('Tanggal dan Deskripsi Pengumuman wajib diisi.');
             
-            // SweetAlert Validation Notification
+
             Swal.fire({
                 title: 'Peringatan!',
                 text: 'Tanggal dan Deskripsi Pengumuman wajib diisi.',
@@ -121,7 +119,7 @@ function AdminDashboard() {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    const response = await fetch(`http://localhost:5000/api/pengumuman/${id}`, {
+                    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/pengumuman/${id}`, {
                         method: 'DELETE',
                     });
 
@@ -133,7 +131,7 @@ function AdminDashboard() {
                     setSuccessMessage('Pengumuman berhasil dihapus!');
                     setError('');
 
-                    // SweetAlert Success Notification
+                    
                     Swal.fire({
                         title: 'Berhasil!',
                         text: 'Pengumuman berhasil dihapus!',
@@ -143,7 +141,7 @@ function AdminDashboard() {
                 } catch (error) {
                     setError('Terjadi kesalahan saat menghapus pengumuman.');
                     
-                    // SweetAlert Error Notification
+                    
                     Swal.fire({
                         title: 'Error!',
                         text: 'Terjadi kesalahan saat menghapus pengumuman.',
@@ -157,7 +155,6 @@ function AdminDashboard() {
 
     return (
         <div className="flex">
-            {/* Sidebar */}
             <div className="w-1/5 bg-gray-100 p-4 h-screen flex flex-col justify-between">
                 <div>
                     <div className="flex items-center justify-center mb-6">
@@ -201,7 +198,7 @@ function AdminDashboard() {
 
             {/* Main Content */}
             <div className="w-4/5 container mx-auto p-4">
-                <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
+                <h1 className="text-2xl font-bold mb-4">Dashboard Admin</h1>
 
                 {/* Agenda Kegiatan */}
                 <div className="bg-white p-4 rounded-lg shadow-md mb-4">
