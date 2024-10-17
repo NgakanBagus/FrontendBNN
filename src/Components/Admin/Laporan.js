@@ -15,35 +15,35 @@ function ActivityReport() {
 
     useEffect(() => {
         fetch(`${process.env.REACT_APP_API_URL}/api/jadwal`)
-            .then(response => response.json())
-            .then(data => {
-                console.log('Fetched data:', data);
-                if (Array.isArray(data.data) && data.data.length > 0) {
-                    const lastWeek = dayjs().subtract(7, 'day').startOf('day');
-                    
-                    // Filter jadwal untuk satu minggu terakhir
-                    const filteredReports = data.data.filter(report => {
-                        return dayjs(report.tanggal_mulai).isAfter(lastWeek);
-                    });
-    
-                    if (filteredReports.length > 0) {
-                        setReports(filteredReports);
-                    } else {
-                        console.log('No records found in the filtered data');
-                        setError('Tidak ada data jadwal yang ditemukan untuk satu minggu terakhir.');
-                    }
-                } else {
-                    console.log('No records found in the fetched data');
-                    setError('Tidak ada data jadwal yang ditemukan.');
-                }
-            })
-            .catch(error => {
-                console.error('Error fetching reports:', error);
-                setError('Terjadi kesalahan saat mengambil laporan.');
-            });
+        .then(response => response.json())
+        .then(data => {
+            console.log('Fetched data:', data);
+            if (Array.isArray(data.data) && data.data.length > 0) {
+                const lastMonth = dayjs().subtract(1, 'month').startOf('day'); // Change to 1 month
+                
+                // Filter jadwal untuk satu bulan terakhir
+                const filteredReports = data.data.filter(report => {
+                    return dayjs(report.tanggal_mulai).isAfter(lastMonth);
+                });
 
-            const admin = localStorage.getItem('admin');
-            setLoggedInAdmin(admin || 'Admin');
+                if (filteredReports.length > 0) {
+                    setReports(filteredReports);
+                } else {
+                    console.log('No records found in the filtered data');
+                    setError('Tidak ada data jadwal yang ditemukan untuk satu bulan terakhir.');
+                }
+            } else {
+                console.log('No records found in the fetched data');
+                setError('Tidak ada data jadwal yang ditemukan.');
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching reports:', error);
+            setError('Terjadi kesalahan saat mengambil laporan.');
+        });
+
+        const admin = localStorage.getItem('admin');
+        setLoggedInAdmin(admin || 'Admin');
     }, []);
     
     const handleDownload = async (type, month) => {
