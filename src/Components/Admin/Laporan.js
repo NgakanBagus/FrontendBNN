@@ -19,9 +19,8 @@ function ActivityReport() {
         .then(data => {
             console.log('Fetched data:', data);
             if (Array.isArray(data.data) && data.data.length > 0) {
-                const lastMonth = dayjs().subtract(1, 'month').startOf('day'); // Change to 1 month
+                const lastMonth = dayjs().subtract(1, 'month').startOf('day'); 
                 
-                // Filter jadwal untuk satu bulan terakhir
                 const filteredReports = data.data.filter(report => {
                     return dayjs(report.tanggal_mulai).isAfter(lastMonth);
                 });

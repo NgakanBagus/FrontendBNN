@@ -16,26 +16,27 @@ function LaporanKegiatan() {
             .then(response => response.json())
             .then(data => {
                 if (Array.isArray(data.data) && data.data.length > 0) {
-                    const lastWeek = dayjs().subtract(7, 'day').startOf('day');
-                    
-                    const filteredReports = data.data.filter(report => {
-                        return dayjs(report.tanggal_mulai).isAfter(lastWeek);
-                    });
-    
-                    if (filteredReports.length > 0) {
-                        setReports(filteredReports);
-                    } else {
-                        setError('Tidak ada data jadwal yang ditemukan untuk satu minggu terakhir.');
-                    }
-                } else {
-                    setError('Tidak ada data jadwal yang ditemukan.');
-                }
-            })
-            .catch(error => {
-                console.error('Error fetching reports:', error);
-                setError('Terjadi kesalahan saat mengambil laporan.');
-            });
+                    const lastMonth = dayjs().subtract(1, 'month').startOf('day'); 
+                
+                const filteredReports = data.data.filter(report => {
+                    return dayjs(report.tanggal_mulai).isAfter(lastMonth);
+                });
 
+                if (filteredReports.length > 0) {
+                    setReports(filteredReports);
+                } else {
+                    console.log('No records found in the filtered data');
+                    setError('Tidak ada data jadwal yang ditemukan untuk satu bulan terakhir.');
+                }
+            } else {
+                console.log('No records found in the fetched data');
+                setError('Tidak ada data jadwal yang ditemukan.');
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching reports:', error);
+            setError('Terjadi kesalahan saat mengambil laporan.');
+        });
         const username = localStorage.getItem('username');
         setLoggedInUser(username || 'User');
     }, []);
