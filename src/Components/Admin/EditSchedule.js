@@ -81,7 +81,6 @@ function EditSchedule() {
 
     return (
         <div className="flex">
-            {/* Sidebar/Navbar */}
             <div className="w-1/5 bg-gray-100 p-4 h-screen flex flex-col justify-between">
                 <div>
                     <div className="flex items-center justify-center mb-6">
@@ -159,13 +158,25 @@ function EditSchedule() {
                         />
                     </div>
                     <div className="mb-4">
-                        <label className="block text-gray-700 text-sm font-bold mb-2">Jam</label>
+                        <label className="block text-gray-700">Jam Mulai</label>
                         <input
                             type="time"
-                            name="jam"
-                            value={schedule.jam}
-                            onChange={handleInputChange}
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            name="jam_mulai"
+                            value={formData.jam_mulai}
+                            onChange={handleChange}
+                            className="w-full p-2 border border-gray-300 rounded mt-2"
+                            required
+                        />
+                        </div>
+                        <div className="mb-4">
+                        <label className="block text-gray-700">Jam Selesai</label>
+                        <input
+                            type="time"
+                            name="jam_selesai"
+                            value={formData.jam_selesai}
+                            onChange={handleChange}
+                            className="w-full p-2 border border-gray-300 rounded mt-2"
+                            required
                         />
                     </div>
                     <div className="flex items-center justify-between">
