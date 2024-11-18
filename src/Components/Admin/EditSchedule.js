@@ -162,19 +162,19 @@ function EditSchedule() {
                         <input
                             type="time"
                             name="jam_mulai"
-                            value={formData.jam_mulai}
-                            onChange={handleChange}
+                            value={schedule.jam_mulai}
+                            onChange={handleInputChange}
                             className="w-full p-2 border border-gray-300 rounded mt-2"
                             required
                         />
-                        </div>
-                        <div className="mb-4">
+                    </div>
+                    <div className="mb-4">
                         <label className="block text-gray-700">Jam Selesai</label>
                         <input
                             type="time"
                             name="jam_selesai"
-                            value={formData.jam_selesai}
-                            onChange={handleChange}
+                            value={schedule.jam_selesai}
+                            onChange={handleInputChange}
                             className="w-full p-2 border border-gray-300 rounded mt-2"
                             required
                         />
